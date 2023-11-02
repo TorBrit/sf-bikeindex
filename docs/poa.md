@@ -1,0 +1,74 @@
+# Plan of Approach
+
+## 1. Installation
+
+1. Install Angular
+1. Configure eslint
+1. Configure Vscode
+
+## 2. Requirements
+
+The assignment has no time limit, which is great. That however does make it both:
+
+- easy to add too much complexity.
+- easy to add too LITTLE features.
+
+The name of the game is KISS. Keep It Stupid Simple.
+
+### Plan:
+
+1. Create a structure that works for this project.
+1. Implement all features required to match the criteria.
+1. Connect any tests to components which require one in order for our application to be more robust.
+1. Code cleanup and further optimization.
+1. Implement further improvements.
+
+### Must Have Criteria:
+
+- Should consist of two views.
+
+  - Has routing, including `id` routing
+    - Shall we get filter params in the path?
+  - The pages are user friendly (has action feedback like spinners, TAB-able navigation, etc.)
+  - The pages must not block the user's actions.
+  - Search page allows searching through input field
+    - Can we suggest cities? (autocomplete)
+    - If we don't get results, return a friendly message saying that we found nothing.
+
+- API:
+  - Requires a service in order to connect.
+  - `GET` all, returns `Bike[]`.
+    - Accepts search params by city name
+    - Use pagination part of the API.
+  - `GET` `{id}`, returns `Bike` information.
+    - Could be different object model.
+- App is going to need tests
+
+### Considerations:
+
+- Since this is a small app, can we do without (many) additional packages?
+  - We don't have much state or any authentication.
+  - Design can be done with plain component-level CSS. Tailwind is awesome but I don't think it's worth the investment. Same for CSS pre-processors.
+- We are going to need tests. Which ones?
+
+  - Unit tests seems like no-brainer.
+  - Integration / scenario testing is nice, but don't feel like the highest priority for this one.
+  - E2E requires a testing framework like Playwright, check if that impacts anything. These seem very useful for this project though.
+
+### BikeIndex API
+
+Working calls:
+https://bikeindex.org:443/api/v3/search?page=1&per_page=25&location=Amsterdam%2C%20NH%2C%20NL&distance=10&stolenness=proximity
+
+Interestingly, try `Delft`:
+
+- Returns the Dutch location only, through both API and the website. No location parameters or headers are sent.
+- I know that Delft also exists in USA. Try '`Delft, USA`' and you get bikes in the USA. Going to assume for this project that the API just picks the most popular of the two.
+- Criteria says filtering on cities. Should we also allow provinces and countries?
+  - For provinces, Valkenburg exists in ZH and LB!
+
+Other stuff:
+
+- You MUST set stolenness to **proximity** in order for searching by location to work, see documentation.
+- `/search` has sister calls, you can look up serials too for example
+- We can't get a list of locations from the API, maybe there's another open source api that allows us to autocomplete locations? (user-friendly)
