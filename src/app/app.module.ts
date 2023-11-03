@@ -1,22 +1,22 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
+import { BrowserModule } from '@angular/platform-browser';
+import { CoreModule } from './core/core.module';
+import { NgModule } from '@angular/core';
+import { SharedModule } from './shared/shared.module';
 
 import { AppComponent } from './app.component';
-import { StarComponent } from './core/components/star/star.component';
-import { NotFoundComponent } from './core/components/not-found/not-found.component';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    StarComponent,
-    NotFoundComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    CoreModule,
+    SharedModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule { }

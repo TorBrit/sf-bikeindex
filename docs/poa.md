@@ -23,6 +23,18 @@ The name of the game is KISS. Keep It Stupid Simple.
 1. Code cleanup and further optimization.
 1. Implement further improvements.
 
+### Detailed:
+
+1. Create the two pages in most basic form
+   1. Routing
+   1. Error page in case of not found
+1. API
+   1. Interfaces for models
+   1. Interface for params(?)
+   1. Client for calls
+   1. Service for request and response
+1. 
+
 ### Must Have Criteria:
 
 - Should consist of two views.
@@ -35,14 +47,18 @@ The name of the game is KISS. Keep It Stupid Simple.
     - Can we suggest cities? (autocomplete)
     - If we don't get results, return a friendly message saying that we found nothing.
 
-- API:
+- API.
+
   - Requires a service in order to connect.
   - `GET` all, returns `Bike[]`.
     - Accepts search params by city name
     - Use pagination part of the API.
   - `GET` `{id}`, returns `Bike` information.
     - Could be different object model.
-- App is going to need tests
+
+- App is going to need tests.
+
+  - Coverage for services / classes close to 100%?
 
 ### Considerations:
 
@@ -61,6 +77,8 @@ The name of the game is KISS. Keep It Stupid Simple.
 
 - Caching: can we hold data for a while?
   - Can Angular Signals also help us with simpler state actions not requiring cache?
+
+- Translation files. Check Bouwkennis (`@ngx-translate/core`).
 
 ### BikeIndex API
 
