@@ -32,7 +32,7 @@
           }
         ],
         "semi": "warn",
-        "no-unused-vars": "warn",
+        "quotes": ["error", "single", { "allowTemplateLiterals": true }],
         "comma-dangle": ["warn", {
           "arrays": "never",
           "objects": "always-multiline",
@@ -46,7 +46,9 @@
           "ignoreMemberSort": false,
           "memberSyntaxSortOrder": ["none", "all", "multiple", "single"],
           "allowSeparatedGroups": true
-        }]
+        }],
+        "no-unused-vars": "off",
+        "@typescript-eslint/no-unused-vars": "warn"
       }
     },
     {
