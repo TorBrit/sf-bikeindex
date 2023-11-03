@@ -14,34 +14,55 @@ The project's workspace was created with [Angular CLI](https://github.com/angula
 
 This project has an ESLint configuration. Please ensure your ESLint is running.
 
+### IDE
+
+It is recommended to use Visual Studio Code (VSCode), but any IDE which supports front-end developent and can execute commands from the terminal will suffice.
+
+## Overview
+
+### Folder structure
+
+Inspiration taken from [deb by seb's article](https://www.devbyseb.com/article/best-practices-for-angular-app-development-folder-structure-naming-lazy-loading-and-more) and a dev.to post by [Victor Tihomirov](https://dev.to/vixero/a-simple-angular-folder-structure-that-makes-development-feel-natural-and-easy-241d).
+
+- `/api` - services and interfaces relevant for our Restful API calls
+- `/core` - core services and components which almost all facets of our application depend on
+- `/modules` - features with their own elements encapsulated
+- `/shared` - reusable UI components, types and helper classes
+
 ## Commands
+
+### Running
 
 First install all dependencies by running `yarn`.
 
 Then run `yarn start`. This will start the development server (`ng serve`) in watch mode. Navigate to `http://localhost:4200/` to view the application.
 
-If you wish to auto-clean your code with ESLint, run `yarn lint:fix`.
-
----
-
----
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
+### Building application
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
 
-## Running unit tests
+### Code scaffolding
+
+Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+
+Adding `--flat` as a param will not create a folder for the generated item.
+
+To generate in a specific folder, run the following (using `my-component` in `core` as an example): `ng generate component core/components/my-component`.
+
+### Running unit tests
 
 Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-## Running end-to-end tests
+### Linting
+
+If you're using VSCode, then ESLint should auto-fix any issues in a file on save. If you wish you auto-fix manually, run `yarn lint:fix`.
+
+Running the command without `:fix` will list all the warnings and errors only.
+
+### Other
+
+
+
+#### Running end-to-end tests
 
 Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.

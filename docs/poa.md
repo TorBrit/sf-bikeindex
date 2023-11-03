@@ -51,9 +51,16 @@ The name of the game is KISS. Keep It Stupid Simple.
   - Design can be done with plain component-level CSS. Tailwind is awesome but I don't think it's worth the investment. Same for CSS pre-processors.
 - We are going to need tests. Which ones?
 
-  - Unit tests seems like no-brainer.
+  - Unit tests seems like no-brainer. Angular has built-in support.
   - Integration / scenario testing is nice, but don't feel like the highest priority for this one.
-  - E2E requires a testing framework like Playwright, check if that impacts anything. These seem very useful for this project though.
+  - E2E requires a testing framework like Playwright, check if that impacts anything. Seems very useful for this project though.
+
+- Jest vs Jasmine - Angular comes with Jasmine but it requires some additional dependencies for things like mocking, making it slower. Jest in turn doesn't need a web runner and thus cannot do more complex stuff with state (Signals) for example.
+  - Further reading: https://dev.to/this-is-angular/angular-testing-in-2023-past-present-and-future-j5m
+  - Also goes into detail about replacing Jasmine for Jest and the amount of support for both frameworks.
+
+- Caching: can we hold data for a while?
+  - Can Angular Signals also help us with simpler state actions not requiring cache?
 
 ### BikeIndex API
 
