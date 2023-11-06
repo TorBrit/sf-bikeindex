@@ -1,5 +1,5 @@
 <div *ngIf="bike">
-  <a href={{bike.large_img}} target="_blank" (click)="!!bike.large_img">
+  <a href={{bike.large_img}} target="_blank" (click)="!!bike.large_img" class="{{!bike.large_img && 'no-image'}}">
     <img #bikeImg src={{bike.thumb}} (error)="bikeImg.src = this.placeholderUrl" alt={{bike.description}} width="300" height="auto" />
   </a>
   <div>Title: {{bike.title}}</div>

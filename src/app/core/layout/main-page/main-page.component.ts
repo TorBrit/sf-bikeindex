@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { BikeService } from 'src/app/api/services/bike.service';
 import { QueryParams } from 'src/app/api/models/query-params';
@@ -10,8 +10,6 @@ import { QueryParams } from 'src/app/api/models/query-params';
   styleUrls: ['./main-page.component.css'],
 })
 export class MainPageComponent {
-  @Input() cityInput = '';
-
   bikes$ = this.bikeService.availableBikes$;
 
   constructor(private bikeService: BikeService) {}
@@ -22,14 +20,14 @@ export class MainPageComponent {
       ...params,
     };
 
-    this.bikeService._bikesSubject$.next();
+    this.bikeService.bikesSubject$.next();
   }
 
-  onClickSearch() {
+  onClickSearch(location: string) {
     this.updateSearchQuery({
       ...this.bikeService.queryParams,
       location: {
-        city: 'Amsterdam',
+        city: location,
       },
     });
   }

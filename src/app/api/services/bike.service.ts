@@ -1,5 +1,5 @@
-import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { BehaviorSubject, Observable, catchError, mergeMap, of, shareReplay } from 'rxjs';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { LocationFilterParams, QueryParams } from '../models/query-params';
@@ -17,24 +17,6 @@ const getDetailsOperation = 'GET_BIKE_DETAILS';
 export class BikeService {
   constructor(private http: HttpClient) { }
 
-  // Helper file?
-  private buildLocationQuery(params: LocationFilterParams) {
-    const values = Object.values(params);
-    return values.length > 0 ? values.join(',') : '';
-  }
-
-  private buildHttpParamOptions(params: QueryParams) {
-    const options = {
-      params: new HttpParams()
-        .append('page', params.pageNumber)
-        .append('per_page', params.pageSize)
-        .append('stolenness', 'proximity')
-        .append('distance', 1)
-        .append('location', this.buildLocationQuery(params.location)),
-    };
-    return options;
-  }
-
   public queryParams: QueryParams = {
     pageNumber: 1,
     pageSize: 10,
@@ -43,8 +25,8 @@ export class BikeService {
     },
   };
 
-  public _bikesSubject$ = new BehaviorSubject<void>(undefined); // make private?
-  public availableBikes$ = this._bikesSubject$.pipe(
+  public bikesSubject$ = new BehaviorSubject<void>(undefined); // make private?
+  public availableBikes$ = this.bikesSubject$.pipe(
     mergeMap(() => this.getBikes$(this.queryParams)),
     shareReplay(1)
   );
@@ -71,16 +53,29 @@ export class BikeService {
       );
   }
 
+  // Helper file or base class?
   private handleError$<T>(operation = 'operation', result?: T) {
     return (error: HttpErrorResponse): Observable<T> => {
-
-      console.info(error);
-
-       // TODO:
-       // 1. inform user
-       // 2. pass correct code to frontend
+       // TODO: 1. inform user + 2. pass correct code to frontend
       console.error(`${operation} failed: ${error.message}`);
       return of(result as T);
     };
+  }
+
+  private buildLocationQuery(params: LocationFilterParams) {
+    const values = Object.values(params);
+    return values.length > 0 ? values.join(',') : '';
+  }
+
+  private buildHttpParamOptions(params: QueryParams) {
+    const options = {
+      params: new HttpParams()
+        .append('page', params.pageNumber)
+        .append('per_page', params.pageSize)
+        .append('stolenness', 'proximity')
+        .append('distance', 1)
+        .append('location', this.buildLocationQuery(params.location)),
+    };
+    return options;
   }
 }

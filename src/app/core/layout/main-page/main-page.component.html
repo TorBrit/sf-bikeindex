@@ -1,6 +1,9 @@
-<p>This is the main page.</p>
-
+<h1>BikeSearcher</h1>
 <p>How about a navigation bar? Allows you switch between the latest detail page you picked.</p>
+<p>Show the thumbs in the overview?</p>
+
+<input #cityInput type="text" aria-label="city-input" placeholder="Enter a city..." />
+<button (click)="onClickSearch(cityInput.value)">Search bikes</button>
 
 <div *ngIf="bikes$ | async as bikesResponse">
   <ul *ngFor="let bike of bikesResponse.bikes">
@@ -11,5 +14,3 @@
     </li>
   </ul>
 </div>
-
-<button (click)="onClickSearch()">Console current data</button>
