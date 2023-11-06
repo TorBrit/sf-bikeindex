@@ -1,0 +1,12 @@
+<div *ngIf="bike">
+  <a href={{bike.large_img}} target="_blank" (click)="!!bike.large_img">
+    <img #bikeImg src={{bike.thumb}} (error)="bikeImg.src = this.placeholderUrl" alt={{bike.description}} width="300" height="auto" />
+  </a>
+  <div>Title: {{bike.title}}</div>
+  <div>Manufacturer: {{bike.manufacturer_name}}</div>
+  <div *ngIf="bike.description">Description: {{bike.description}}</div>
+  <br />
+  <div>View on BikeIndex: {{bike.url}}</div>
+</div>
+
+<a routerLink="/" href="#">Return</a>

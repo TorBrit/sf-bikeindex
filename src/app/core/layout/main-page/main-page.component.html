@@ -1,1 +1,15 @@
 <p>This is the main page.</p>
+
+<p>How about a navigation bar? Allows you switch between the latest detail page you picked.</p>
+
+<div *ngIf="bikes$ | async as bikesResponse">
+  <ul *ngFor="let bike of bikesResponse.bikes">
+    <li>
+      <a routerLink="details/{{bike.id}}" href="#">
+        {{bike.id}} | {{bike.title}} | {{bike.status}}
+      </a>
+    </li>
+  </ul>
+</div>
+
+<button (click)="onClickSearch()">Console current data</button>

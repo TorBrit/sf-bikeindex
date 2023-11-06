@@ -1,13 +1,15 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable, catchError, of } from 'rxjs';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
+import { BehaviorSubject, Observable, catchError, mergeMap, of, shareReplay } from 'rxjs';
 import { Injectable } from '@angular/core';
 
 import { LocationFilterParams, QueryParams } from '../models/query-params';
-import { BikeModel } from '../models/bike-model';
+import { BikeResponseModel } from '../models/bike-model';
+import { environment } from 'src/environments/environment';
 
-// TODO: to environment
-const baseUrl = 'bikeindex.org/api/v3/';
-const getBikesError = 'GET_BIKES';
+const baseUrl = environment.bikeApiBaseUrl;
+
+const getBikesOperation = 'GET_BIKES';
+const getDetailsOperation = 'GET_BIKE_DETAILS';
 
 @Injectable({
   providedIn: 'root',
@@ -15,12 +17,13 @@ const getBikesError = 'GET_BIKES';
 export class BikeService {
   constructor(private http: HttpClient) { }
 
+  // Helper file?
   private buildLocationQuery(params: LocationFilterParams) {
     const values = Object.values(params);
     return values.length > 0 ? values.join(',') : '';
   }
 
-  getBikes(params: QueryParams): Observable<BikeModel[]> {
+  private buildHttpParamOptions(params: QueryParams) {
     const options = {
       params: new HttpParams()
         .append('page', params.pageNumber)
@@ -29,21 +32,54 @@ export class BikeService {
         .append('distance', 1)
         .append('location', this.buildLocationQuery(params.location)),
     };
+    return options;
+  }
 
-    return this.http.get<BikeModel[]>(`${baseUrl}/search`, options)
+  public queryParams: QueryParams = {
+    pageNumber: 1,
+    pageSize: 10,
+    location: {
+      city: 'Delft',
+    },
+  };
+
+  public _bikesSubject$ = new BehaviorSubject<void>(undefined); // make private?
+  public availableBikes$ = this._bikesSubject$.pipe(
+    mergeMap(() => this.getBikes$(this.queryParams)),
+    shareReplay(1)
+  );
+
+  getBikes$(params: QueryParams): Observable<BikeResponseModel> {
+    return this.http.get<BikeResponseModel>(`${baseUrl}/search`, this.buildHttpParamOptions(params))
       .pipe(
-        catchError(this.handleError<BikeModel[]>(getBikesError, []))
+        catchError(this.handleError$<BikeResponseModel>(getBikesOperation, {}))
       );
   }
 
-  getBikeDetails(id: number): Observable<BikeModel> {
-    return this.http.get<BikeModel>(`${baseUrl}/bikes/${id}`);
+  getBikesCountWithinProximity$(params: QueryParams): Observable<BikeResponseModel> {
+    return this.http.get<BikeResponseModel>(`${baseUrl}/search/count`, this.buildHttpParamOptions(params))
+      .pipe(
+        catchError(this.handleError$<BikeResponseModel>(getBikesOperation, {}))
+      );
   }
 
-  // TODO: create mother class? + is this the most modern way to handle these errors?
-  private handleError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-      console.error(`${operation} failed: ${error.message}`); // TODO: dedicated logger
+  getBikeDetails$(id: number): Observable<BikeResponseModel> {
+    return this.http.get<BikeResponseModel>(`${baseUrl}/bikes/${id}`)
+      .pipe(
+        shareReplay(1),
+        catchError(this.handleError$<BikeResponseModel>(getDetailsOperation))
+      );
+  }
+
+  private handleError$<T>(operation = 'operation', result?: T) {
+    return (error: HttpErrorResponse): Observable<T> => {
+
+      console.info(error);
+
+       // TODO:
+       // 1. inform user
+       // 2. pass correct code to frontend
+      console.error(`${operation} failed: ${error.message}`);
       return of(result as T);
     };
   }

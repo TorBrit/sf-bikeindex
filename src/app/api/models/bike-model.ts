@@ -1,3 +1,9 @@
+export interface BikeResponseModel {
+  bike?: BikeDetailModel;
+  bikes?: BikeModel[];
+  count?: BikesCount;
+}
+
 export interface BikeModel {
   id: number;
   url: string;
@@ -26,9 +32,25 @@ export interface BikeModel {
   registry_name?: string;
   registry_url?: string;
 
-  // List of types can be fetched from api calls
+  // https://bikeindex.org/documentation/api_v3#!/selections
   propulsion_type_slug: string;
   cycle_type_slug: string;
+}
+
+export interface BikeDetailModel extends BikeModel {
+  registration_created_at: number;
+  registration_updated_at: number;
+
+  manufacturer_id?: number;
+  name?: string;
+  additional_registration?: string;
+  components: string[];
+}
+
+export interface BikesCount {
+  proximity: number;
+  stolen: number;
+  non: number;
 }
 
 type BikeStatus = 'stolen' | 'with owner' | 'found';

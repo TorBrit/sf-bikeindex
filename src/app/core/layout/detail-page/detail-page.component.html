@@ -1,1 +1,8 @@
 <p>Show bike details here</p>
+
+<div *ngIf="loadingBike">
+  Fetching bike information...
+</div>
+<div *ngIf="bike">
+  <app-bike-details [bike]="bike"></app-bike-details>
+</div>
