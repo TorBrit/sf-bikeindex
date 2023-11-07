@@ -2,7 +2,7 @@ import { BehaviorSubject, Observable, catchError, map, mergeMap, of, shareReplay
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { BikeApiResponse, PagedResult } from '../models/bike-model';
+import { ApiResponse, PagedResult } from '../models/api-model';
 import { LocationFilterParams, QueryParams } from '../models/query-params';
 import { environment } from 'src/environments/environment';
 
@@ -32,36 +32,39 @@ export class BikeService {
   );
 
   getBikes$(params: QueryParams): Observable<PagedResult> {
-    return this.http.get<BikeApiResponse>(`${baseUrl}/search`, this.buildHttpParamOptions(params))
+    return this.http.get<ApiResponse>(`${baseUrl}/search`, this.buildHttpParamOptions(params))
       .pipe(
-        catchError(this.handleError$<BikeApiResponse>(getBikesOperation, {})),
+        catchError(this.handleError$<ApiResponse>(getBikesOperation, {})),
         map((result) => {
           const bikeCount = result.bikes?.length ?? 0;
           return {
             data: result.bikes ?? [],
             mayHaveNextPage: bikeCount == this.queryParams.pageSize,
             entryCount: bikeCount,
+            range: {
+              from: 1 + (this.queryParams.pageSize * (this.queryParams.pageNumber - 1)),
+              to: (this.queryParams.pageSize * (this.queryParams.pageNumber - 1)) + bikeCount,
+            },
           };
         })
       );
   }
 
-  getBikesCountWithinProximity$(params: QueryParams): Observable<BikeApiResponse> {
-    return this.http.get<BikeApiResponse>(`${baseUrl}/search/count`, this.buildHttpParamOptions(params))
+  getBikesCountWithinProximity$(params: QueryParams): Observable<ApiResponse> {
+    return this.http.get<ApiResponse>(`${baseUrl}/search/count`, this.buildHttpParamOptions(params))
       .pipe(
-        catchError(this.handleError$<BikeApiResponse>(getBikesOperation, {}))
+        catchError(this.handleError$<ApiResponse>(getBikesOperation, {}))
       );
   }
 
-  getBikeDetails$(id: number): Observable<BikeApiResponse> {
-    return this.http.get<BikeApiResponse>(`${baseUrl}/bikes/${id}`)
+  getBikeDetails$(id: number): Observable<ApiResponse> {
+    return this.http.get<ApiResponse>(`${baseUrl}/bikes/${id}`)
       .pipe(
         shareReplay(1),
-        catchError(this.handleError$<BikeApiResponse>(getDetailsOperation))
+        catchError(this.handleError$<ApiResponse>(getDetailsOperation))
       );
   }
 
-  // Helper file or base class?
   private handleError$<T>(operation = 'operation', result?: T) {
     return (error: HttpErrorResponse): Observable<T> => {
        // TODO: 1. inform user + 2. pass correct code to frontend

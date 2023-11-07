@@ -1,15 +1,3 @@
-export interface PagedResult {
-  data: BikeModel[];
-  entryCount: number;
-  mayHaveNextPage: boolean;
-}
-
-export interface BikeApiResponse {
-  bike?: BikeDetailModel;
-  bikes?: BikeModel[];
-  count?: BikesCount;
-}
-
 export interface BikeModel {
   id: number;
   url: string;
