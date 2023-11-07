@@ -3,6 +3,8 @@ import { Component } from '@angular/core';
 import { BikeService } from 'src/app/api/services/bike.service';
 import { QueryParams } from 'src/app/api/models/query-params';
 
+  // BIKE SEARCH
+  // - Pagination
 
 @Component({
   selector: 'app-main-page',

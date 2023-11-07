@@ -1,16 +1,28 @@
-<h1>BikeSearcher</h1>
-<p>How about a navigation bar? Allows you switch between the latest detail page you picked.</p>
-<p>Show the thumbs in the overview?</p>
-
 <input #cityInput type="text" aria-label="city-input" placeholder="Enter a city..." />
 <button (click)="onClickSearch(cityInput.value)">Search bikes</button>
 
 <div *ngIf="bikes$ | async as bikesResponse">
-  <ul *ngFor="let bike of bikesResponse.bikes">
-    <li>
-      <a routerLink="details/{{bike.id}}" href="#">
-        {{bike.id}} | {{bike.title}} | {{bike.status}}
-      </a>
-    </li>
-  </ul>
+  <table class="table-auto w-full divide-y divide-gray-200">
+    <tbody *ngFor="let bike of bikesResponse.bikes">
+      <tr class="cursor-pointer hover:bg-gray-100" routerLink="details/{{bike.id}}">
+        <td class="w-12 sm:w-16">
+          <img #bikeImg class="w-8 h-8 sm:w-12 sm:h-12 rounded-full mr-4" src={{bike.thumb}} (error)="bikeImg.src = 'assets/placeholder.jpg'" alt={{bike.description}} />
+        </td>
+        <td>
+          <span>{{bike.title}}</span>
+          <span class="block sm:hidden">
+            <div class="w-2 h-2 rounded-full bg-red-500 inline-block"></div>
+            {{bike.status}}
+          </span>
+        </td>
+        <td class="w-18 hidden sm:table-cell">
+          <div class="w-2 h-2 rounded-full bg-red-500 inline-block"></div>
+          {{bike.status}}
+        </td>
+        <td class="w-12">
+          View
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>
