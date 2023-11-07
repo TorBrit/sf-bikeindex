@@ -21,7 +21,7 @@ export class BikeService {
     pageNumber: 1,
     pageSize: 10,
     location: {
-      city: 'Delft',
+      city: '',
     },
   };
 

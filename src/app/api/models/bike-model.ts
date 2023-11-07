@@ -59,4 +59,4 @@ export interface BikesCount {
   non: number;
 }
 
-type BikeStatus = 'stolen' | 'with owner' | 'found';
+export type BikeStatus = 'stolen' | 'with owner' | 'found';

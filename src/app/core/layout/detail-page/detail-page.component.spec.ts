@@ -18,4 +18,7 @@ describe('DetailPageComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  // TODO tests:
+  // should show that loading failed if 404 is returned
 });

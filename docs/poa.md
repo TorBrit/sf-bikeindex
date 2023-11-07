@@ -64,7 +64,8 @@ The name of the game is KISS. Keep It Stupid Simple.
 
 - Since this is a small app, can we do without (many) additional packages?
   - We don't have much state or any authentication.
-  - Design can be done with plain component-level CSS. Tailwind is awesome but I don't think it's worth the investment. Same for CSS pre-processors.
+  - Tailwind is good enough for simple and fast UI design. Angular Material could've worked as well, though it is a much heavier package and this app is lightweight.
+  
 - We are going to need tests. Which ones?
 
   - Unit tests seems like no-brainer. Angular has built-in support.

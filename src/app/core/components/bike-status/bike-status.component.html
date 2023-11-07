@@ -1,0 +1,8 @@
+<div #statusDot
+  class="w-2 h-2 rounded-full inline-block"
+  [ngClass]="{
+    'bg-red-500' : status === 'stolen',
+    'bg-green-500' : status === 'found',
+    'bg-blue-500' : status === 'with owner'
+  }"></div>
+{{status}}

@@ -18,4 +18,8 @@ describe('MainPageComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  // TODO tests:
+  // should load data
+  // should show error notification if data could not be loaded
 });
