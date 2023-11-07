@@ -9,7 +9,7 @@
 
   <table class="table-auto w-full divide-y divide-gray-200">
     <tbody *ngFor="let bike of bikesResponse.data">
-      <tr class="cursor-pointer hover:bg-gray-100" routerLink="details/{{bike.id}}">
+      <tr class="cursor-pointer pointer-events-auto hover:bg-gray-100" routerLink="details/{{bike.id}}">
         <td class="w-12 sm:w-16">
           <img #bikeImg class="w-10 h-10 sm:w-12 sm:h-12 rounded-full mr-4 my-2" src={{bike.thumb}} (error)="bikeImg.src = 'assets/placeholder.jpg'" alt={{bike.description}} />
         </td>
@@ -25,7 +25,7 @@
           {{bike.status}}
         </td>
         <td class="w-12 text-right">
-          View
+          <a routerLink="details/{{bike.id}}" href="#">View</a>
         </td>
       </tr>
     </tbody>
