@@ -12,8 +12,6 @@ import { QueryParams } from 'src/app/api/models/query-params';
 export class MainPageComponent implements OnInit {
   pageNumber?: number;
 
-  mayHaveNextPage = false;
-
   bikes$ = this.bikeService.availableBikes$;
 
   constructor(private bikeService: BikeService, private route: ActivatedRoute) {}

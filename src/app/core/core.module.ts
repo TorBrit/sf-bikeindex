@@ -9,7 +9,6 @@ import { MainPageComponent } from './layout/main-page/main-page.component';
 import { BikeDetailsComponent } from './components/bike-details/bike-details.component';
 import { BikeListComponent } from './components/bike-list/bike-list.component';
 
-
 @NgModule({
   declarations: [
     MainPageComponent,

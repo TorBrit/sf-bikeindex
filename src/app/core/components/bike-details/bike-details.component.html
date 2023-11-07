@@ -1,5 +1,5 @@
 <div *ngIf="bike">
-  <a href={{bike.large_img}} target="_blank" class="{{!bike.large_img && 'cursor-default pointer-events-none'}}">
+  <a href={{bike.large_img}} target="_blank" class="{{!bike.large_img ? 'cursor-default pointer-events-none' : ''}}" role="button">
     <img #bikeImg src={{bike.thumb}} (error)="bikeImg.src = this.placeholderUrl" alt={{bike.description}} width="300" height="auto" />
   </a>
 
@@ -9,5 +9,3 @@
   <br />
   <div>View on BikeIndex: {{bike.url}}</div>
 </div>
-
-<a routerLink="/" href="#">Return</a>

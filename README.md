@@ -22,11 +22,8 @@ It is recommended to use Visual Studio Code (VSCode), but any IDE which supports
 
 ### Folder structure
 
-Inspiration taken from [deb by seb's article](https://www.devbyseb.com/article/best-practices-for-angular-app-development-folder-structure-naming-lazy-loading-and-more) and a dev.to post by [Victor Tihomirov](https://dev.to/vixero/a-simple-angular-folder-structure-that-makes-development-feel-natural-and-easy-241d).
-
 - `/api` - services and interfaces relevant for our Restful API calls
-- `/core` - core services and components which almost all facets of our application depend on
-- `/modules` - features with their own elements encapsulated
+- `/core` - core services and components on which almost all facets of our application depend on
 - `/shared` - reusable UI components, types and helper classes
 
 ## Commands
