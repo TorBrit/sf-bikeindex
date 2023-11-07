@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Component, Input, OnInit } from '@angular/core';
 
 import { BikeService } from 'src/app/api/services/bike.service';
 import { QueryParams } from 'src/app/api/models/query-params';
@@ -10,28 +10,48 @@ import { QueryParams } from 'src/app/api/models/query-params';
   styleUrls: ['./main-page.component.css'],
 })
 export class MainPageComponent implements OnInit {
-  pageNumber?: number;
+  @Input() search?: string;
+  @Input() page?: number;
 
   bikes$ = this.bikeService.availableBikes$;
 
-  constructor(private bikeService: BikeService, private route: ActivatedRoute) {}
+  constructor(
+    private bikeService: BikeService,
+    private route: ActivatedRoute,
+    private router: Router)
+  {
+    this.route.queryParams.subscribe((params) => {
+      // on navigating back, keep previous city
+      if (!params['search']) {
+        this.search = this.bikeService.queryParams.location.city;
+        return;
+      }
 
-  ngOnInit(): void {
-    this.pageNumber = (this.route.snapshot.paramMap.get('page') || 1) as number;
+      const updatedParams = {
+        ...this.bikeService.queryParams,
+        pageNumber: params['page'] ?? 1,
+        location: {
+          city: params['search'],
+        },
+      };
+
+      this.bikeService.queryParams = updatedParams;
+      this.bikeService.bikesSubject$.next();
+    });
   }
 
-  private updateSearchQuery(params: QueryParams) {
+  ngOnInit(): void {
     this.bikeService.queryParams = {
       ...this.bikeService.queryParams,
-      ...params,
+      pageNumber: this.page ?? 1,
+      location: {
+        city: this.search ?? '',
+      },
     };
-
-    this.bikeService.bikesSubject$.next();
   }
 
   onClickSearch(location: string) {
-    this.updateSearchQuery({
-      ...this.bikeService.queryParams,
+    this.updateSearchQuery({ ...this.bikeService.queryParams,
       location: {
         city: location,
       },
@@ -39,10 +59,21 @@ export class MainPageComponent implements OnInit {
   }
 
   onChangePage(pageNumber: number) {
-    // use this.pageNumber here
-    this.updateSearchQuery({
-      ...this.bikeService.queryParams,
-      pageNumber,
-    });
+    this.updateSearchQuery({ ...this.bikeService.queryParams, pageNumber });
+  }
+
+  private updateSearchQuery(params: QueryParams) {
+    const { location, pageNumber } = this.bikeService.queryParams;
+    console.info(this.bikeService.queryParams);
+
+    this.router.navigate([],
+      {
+        relativeTo: this.route,
+        queryParams: {
+          search: params.location.city ?? location.city,
+          page: params.pageNumber ?? pageNumber,
+        },
+      }
+    );
   }
 }
