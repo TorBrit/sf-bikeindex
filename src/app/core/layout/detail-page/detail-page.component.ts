@@ -4,9 +4,6 @@ import { ActivatedRoute } from '@angular/router';
 import { BikeDetailModel } from 'src/app/api/models/bike-model';
 import { BikeService } from 'src/app/api/services/bike.service';
 
-  // Delft bike (no image):   99971
-  // Murican bike (w image):  1403804
-
   // BIKE DETAILS:
   // - If id has no data or data is not fetched, show error message
 
@@ -25,6 +22,7 @@ export class DetailPageComponent implements OnInit {
 
   ngOnInit() {
     this.bikeId = this.route.snapshot.params['id'] as number; // snapshot suffices; no dynamic param changes
+
     this.fetchBikeDetails();
   }
 

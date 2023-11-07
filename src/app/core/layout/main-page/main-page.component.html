@@ -1,12 +1,17 @@
-<input #cityInput type="text" aria-label="city-input" placeholder="Enter a city..." />
-<button (click)="onClickSearch(cityInput.value)">Search bikes</button>
+
+
+<div class="max-w-5xl m-auto bg-gray-200 text-gray p-3 mb-2">
+  <input #cityInput class="w-full sm:w-auto mb-3 sm:m-0 sm:mr-3 p-2" type="text" aria-label="city-input" placeholder="Enter a city" value="Delft" />
+  <button class="w-full sm:w-auto bg-blue-600 text-white p-2" (click)="onClickSearch(cityInput.value)">Search bikes</button>
+</div>
 
 <div *ngIf="bikes$ | async as bikesResponse">
+
   <table class="table-auto w-full divide-y divide-gray-200">
-    <tbody *ngFor="let bike of bikesResponse.bikes">
+    <tbody *ngFor="let bike of bikesResponse.data">
       <tr class="cursor-pointer hover:bg-gray-100" routerLink="details/{{bike.id}}">
         <td class="w-12 sm:w-16">
-          <img #bikeImg class="w-8 h-8 sm:w-12 sm:h-12 rounded-full mr-4" src={{bike.thumb}} (error)="bikeImg.src = 'assets/placeholder.jpg'" alt={{bike.description}} />
+          <img #bikeImg class="w-10 h-10 sm:w-12 sm:h-12 rounded-full mr-4 my-2" src={{bike.thumb}} (error)="bikeImg.src = 'assets/placeholder.jpg'" alt={{bike.description}} />
         </td>
         <td>
           <span>{{bike.title}}</span>
@@ -19,10 +24,30 @@
           <div class="w-2 h-2 rounded-full bg-red-500 inline-block"></div>
           {{bike.status}}
         </td>
-        <td class="w-12">
+        <td class="w-12 text-right">
           View
         </td>
       </tr>
     </tbody>
   </table>
+
+  <div class="flex flex-col md:flex-row items-center">
+    <div class="flex-1 text-sm text-gray-700">
+        Showing <span class="font-semibold">1</span> to <span class="font-semibold">10</span>
+        (<span class="font-semibold">{{bikesResponse.entryCount}}</span> entries)
+    </div>
+    <div *ngIf="bikesResponse.mayHaveNextPage" class="flex-1">
+      <div class="inline-flex mt-2 xs:mt-0">
+        <button class="flex items-center px-3 h-8 rounded-l hover:bg-gray-200">
+            Prev
+        </button>
+        <button class="flex items-center px-3 h-8 border-0 border-l border-gray-700 rounded-r hover:bg-gray-200">
+            Next
+        </button>
+      </div>
+    </div>
+  </div>
+
 </div>
+
+

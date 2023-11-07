@@ -1,9 +1,9 @@
-import { BehaviorSubject, Observable, catchError, mergeMap, of, shareReplay } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, map, mergeMap, of, shareReplay } from 'rxjs';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
+import { BikeApiResponse, PagedResult } from '../models/bike-model';
 import { LocationFilterParams, QueryParams } from '../models/query-params';
-import { BikeResponseModel } from '../models/bike-model';
 import { environment } from 'src/environments/environment';
 
 const baseUrl = environment.bikeApiBaseUrl;
@@ -31,25 +31,33 @@ export class BikeService {
     shareReplay(1)
   );
 
-  getBikes$(params: QueryParams): Observable<BikeResponseModel> {
-    return this.http.get<BikeResponseModel>(`${baseUrl}/search`, this.buildHttpParamOptions(params))
+  getBikes$(params: QueryParams): Observable<PagedResult> {
+    return this.http.get<BikeApiResponse>(`${baseUrl}/search`, this.buildHttpParamOptions(params))
       .pipe(
-        catchError(this.handleError$<BikeResponseModel>(getBikesOperation, {}))
+        catchError(this.handleError$<BikeApiResponse>(getBikesOperation, {})),
+        map((result) => {
+          const bikeCount = result.bikes?.length ?? 0;
+          return {
+            data: result.bikes ?? [],
+            mayHaveNextPage: bikeCount == this.queryParams.pageSize,
+            entryCount: bikeCount,
+          };
+        })
       );
   }
 
-  getBikesCountWithinProximity$(params: QueryParams): Observable<BikeResponseModel> {
-    return this.http.get<BikeResponseModel>(`${baseUrl}/search/count`, this.buildHttpParamOptions(params))
+  getBikesCountWithinProximity$(params: QueryParams): Observable<BikeApiResponse> {
+    return this.http.get<BikeApiResponse>(`${baseUrl}/search/count`, this.buildHttpParamOptions(params))
       .pipe(
-        catchError(this.handleError$<BikeResponseModel>(getBikesOperation, {}))
+        catchError(this.handleError$<BikeApiResponse>(getBikesOperation, {}))
       );
   }
 
-  getBikeDetails$(id: number): Observable<BikeResponseModel> {
-    return this.http.get<BikeResponseModel>(`${baseUrl}/bikes/${id}`)
+  getBikeDetails$(id: number): Observable<BikeApiResponse> {
+    return this.http.get<BikeApiResponse>(`${baseUrl}/bikes/${id}`)
       .pipe(
         shareReplay(1),
-        catchError(this.handleError$<BikeResponseModel>(getDetailsOperation))
+        catchError(this.handleError$<BikeApiResponse>(getDetailsOperation))
       );
   }
 

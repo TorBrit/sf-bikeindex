@@ -1,4 +1,10 @@
-export interface BikeResponseModel {
+export interface PagedResult {
+  data: BikeModel[];
+  entryCount: number;
+  mayHaveNextPage: boolean;
+}
+
+export interface BikeApiResponse {
   bike?: BikeDetailModel;
   bikes?: BikeModel[];
   count?: BikesCount;
