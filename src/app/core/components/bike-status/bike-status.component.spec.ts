@@ -19,6 +19,6 @@ describe('BikeStatusComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  // TODO tests:
+  // todo it:
   // should change #statusDot bg color based on status
 });

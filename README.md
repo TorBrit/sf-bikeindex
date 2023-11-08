@@ -48,7 +48,9 @@ To generate in a specific folder, run the following (using `my-component` in `co
 
 ### Running unit tests
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+The app uses the [Jasmine testing framework](https://jasmine.github.io/) for unit tests.
+
+Run `ng test` will open the [Karma](https://karma-runner.github.io) runner. Results will also appear in the terminal.
 
 ### Linting
 

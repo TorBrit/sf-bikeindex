@@ -15,6 +15,6 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  // TODO tests:
+  // it:
   // should show that loading failed if 404 is returned
 });

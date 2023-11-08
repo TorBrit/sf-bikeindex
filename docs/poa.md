@@ -1,12 +1,6 @@
 # Plan of Approach
 
-## 1. Installation
-
-1. Install Angular
-1. Configure eslint
-1. Configure Vscode
-
-## 2. Requirements
+## Requirements
 
 The assignment has no time limit, which is great. That however does make it both:
 
@@ -18,6 +12,7 @@ The name of the game is KISS. Keep It Stupid Simple.
 ### Plan:
 
 1. Create a structure that works for this project.
+   - Eslint, VSCode config included
 1. Implement all features required to match the criteria.
 1. Connect any tests to components which require one in order for our application to be more robust.
 1. Code cleanup and further optimization.
@@ -33,18 +28,20 @@ The name of the game is KISS. Keep It Stupid Simple.
    1. Interface for params(?)
    1. Client for calls
    1. Service for request and response
-1. 
+1. Tests
+   1. Unit tests for services and components
+   1. If app can use it, e2e
 
 ### Must Have Criteria:
 
 - Should consist of two views.
 
   - Has routing, including `id` routing
-    - Shall we get filter params in the path?
+    - Shall we get query params in the path?
   - The pages are user friendly (has action feedback like spinners, TAB-able navigation, etc.)
   - The pages must not block the user's actions.
   - Search page allows searching through input field
-    - Can we suggest cities? (autocomplete)
+    - Autocomplete is sadly not possible unless we connect to another api
     - If we don't get results, return a friendly message saying that we found nothing.
 
 - API.
@@ -63,23 +60,24 @@ The name of the game is KISS. Keep It Stupid Simple.
 ### Considerations:
 
 - Since this is a small app, can we do without (many) additional packages?
+  - This app is ideally lightweight.
   - We don't have much state or any authentication.
-  - Tailwind is good enough for simple and fast UI design. Angular Material could've worked as well, though it is a much heavier package and this app is lightweight.
+  - Tailwind is good enough for simple and fast UI design. Angular Material could work as well, though it is a much heavier package with predefined components we're probably not going to use. and 
   
 - We are going to need tests. Which ones?
 
   - Unit tests seems like no-brainer. Angular has built-in support.
   - Integration / scenario testing is nice, but don't feel like the highest priority for this one.
-  - E2E requires a testing framework like Playwright, check if that impacts anything. Seems very useful for this project though.
+  - E2E requires a testing framework like Playwright, check if that impacts anything. Seems useful, though check if it doesn't generate overhead.
 
 - Jest vs Jasmine - Angular comes with Jasmine but it requires some additional dependencies for things like mocking, making it slower. Jest in turn doesn't need a web runner and thus cannot do more complex stuff with state (Signals) for example.
+  - For our case, both suffice. Jasmine seems easier to start with because out of the out-of-the-box integration.
   - Further reading: https://dev.to/this-is-angular/angular-testing-in-2023-past-present-and-future-j5m
-  - Also goes into detail about replacing Jasmine for Jest and the amount of support for both frameworks.
 
 - Caching: can we hold data for a while?
   - Can Angular Signals also help us with simpler state actions not requiring cache?
 
-- Translation files. Check Bouwkennis (`@ngx-translate/core`).
+- Translation files. Check other projects (`@ngx-translate/core`).
 
 ### BikeIndex API
 

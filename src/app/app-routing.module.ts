@@ -20,7 +20,7 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes,
     {
       enableTracing: environment.enableTracing,
-      bindToComponentInputs: true, // TODO; not working, resolve?
+      bindToComponentInputs: true,
     }
   )],
   exports: [RouterModule],

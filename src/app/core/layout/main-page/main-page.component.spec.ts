@@ -19,7 +19,7 @@ describe('MainPageComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  // TODO tests:
+  // TODO it:
   // should load data
   // should show error notification if data could not be loaded
 });
