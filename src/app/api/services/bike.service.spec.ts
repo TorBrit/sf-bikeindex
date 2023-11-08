@@ -1,14 +1,15 @@
-import { TestBed } from '@angular/core/testing';
-import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { HttpClient } from '@angular/common/http';
+import { TestBed } from '@angular/core/testing';
 
-import { BikeDetailModel, BikeModel } from '../models/bike-model';
+
+import { ApiResponse, PagedResult } from '../models/api-model';
+import { BikeDetailModel } from '../models/bike-model';
+import { QueryParams } from '../models/query-params';
 
 import { BikeService } from './bike.service';
 import { bikesMockData } from './bike.service.spec.data';
 import { environment } from 'src/environments/environment';
-import { ApiResponse, PagedResult } from '../models/api-model';
-import { QueryParams } from '../models/query-params';
 
 const baseUrl = environment.bikeApiBaseUrl;
 
@@ -46,13 +47,13 @@ describe('BikeService', () => {
     });
 
     it('can return valid response', () => {
-      const testParams: QueryParams = {
+      const params: QueryParams = {
         location: { city: '' },
         pageNumber: 1,
         pageSize: 10,
       };
 
-      const requestUrl = `${baseUrl}/search${queryPathBuilder(testParams)}`;
+      const requestUrl = `${baseUrl}/search${queryPathBuilder(params)}`;
 
       const mockResult: PagedResult = {
         data: mockData,
@@ -64,7 +65,7 @@ describe('BikeService', () => {
         },
       };
 
-      service.getBikes$(testParams).subscribe((result) => {
+      service.getBikes$(params).subscribe((result) => {
         expect(result).toEqual(mockResult);
       });
 
@@ -82,13 +83,13 @@ describe('BikeService', () => {
         fail(`mockdata length not sufficient for test: expected ${pageSize}, got ${mockData.length}`);
       }
 
-      const testParams: QueryParams = {
+      const params: QueryParams = {
         location: { city: 'Delft' },
         pageNumber: 1,
         pageSize: pageSize,
       };
 
-      const requestUrl = `${baseUrl}/search${queryPathBuilder(testParams)}`;
+      const requestUrl = `${baseUrl}/search${queryPathBuilder(params)}`;
 
       const mockResult: PagedResult = {
         data: mockData,
@@ -100,7 +101,7 @@ describe('BikeService', () => {
         },
       };
 
-      service.getBikes$(testParams).subscribe((result) => {
+      service.getBikes$(params).subscribe((result) => {
         expect(result).toEqual(mockResult);
       });
 
@@ -132,21 +133,20 @@ describe('BikeService', () => {
     });
   });
 
-  describe('httpclient: when getting bike by id', () => {
+  describe('service: when getting bike by id', () => {
     let mockSingleData: BikeDetailModel;
     const baseMockUrl = `${baseUrl}/bikes`;
 
     beforeEach(() => {
-      mockSingleData = mockData[0];
+      mockSingleData = bikesMockData[0];
     });
 
-    it('can get one bike by valid id', () => {
+    it('get single bike by valid id', () => {
       const requestUrl = `${baseMockUrl}/${mockSingleData.id}`;
+      const mockResult: ApiResponse = { bike: mockSingleData };
 
-      mockClient.get<ApiResponse>(requestUrl).subscribe((data) => {
-        expect(data).toEqual({
-          bike: mockSingleData,
-        });
+      service.getBikeDetails$(mockSingleData.id).subscribe((result) => {
+        expect(result).toEqual(mockResult);
       });
 
       const mockRequest = mockController.expectOne(requestUrl);
@@ -155,8 +155,7 @@ describe('BikeService', () => {
       mockRequest.flush({ bike: mockSingleData });
     });
 
-    // it('should return a 404 if data not found', () => {
-
-    // })
+    // it:
+    // should return a 404 if id does not exist
   });
 });
