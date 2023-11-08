@@ -11,7 +11,7 @@ import { QueryParams } from 'src/app/api/models/query-params';
 })
 export class MainPageComponent implements OnInit {
   @Input() search?: string;
-  @Input() page?: number;
+  @Input() page = 1;
 
   bikes$ = this.bikeService.availableBikes$;
 
@@ -58,13 +58,24 @@ export class MainPageComponent implements OnInit {
     });
   }
 
+  // move to pagination?
+  onPrevious() {
+    if (!(this.page <= 1)) this.onChangePage(this.page - 1);
+  }
+
+  onNext() {
+    this.page ++;
+    this.onChangePage(this.page ++);
+  }
+
   onChangePage(pageNumber: number) {
-    this.updateSearchQuery({ ...this.bikeService.queryParams, pageNumber });
+    this.updateSearchQuery({
+      ...this.bikeService.queryParams, pageNumber: pageNumber || 1,
+    });
   }
 
   private updateSearchQuery(params: QueryParams) {
     const { location, pageNumber } = this.bikeService.queryParams;
-    console.info(this.bikeService.queryParams);
 
     this.router.navigate([],
       {

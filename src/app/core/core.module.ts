@@ -9,6 +9,7 @@ import { MainPageComponent } from './layout/main-page/main-page.component';
 import { BikeDetailsComponent } from './components/bike-details/bike-details.component';
 import { BikeListComponent } from './components/bike-list/bike-list.component';
 import { BikeStatusComponent } from './components/bike-status/bike-status.component';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { BikeStatusComponent } from './components/bike-status/bike-status.compon
   ],
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    SharedModule
   ],
 })
 export class CoreModule { }

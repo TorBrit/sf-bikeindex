@@ -4,45 +4,8 @@
 </div>
 
 <div *ngIf="bikes$ | async as response">
-
-  <table class="table-auto w-full divide-y divide-gray-200">
-    <tbody *ngFor="let bike of response.data">
-      <tr class="cursor-pointer pointer-events-auto hover:bg-gray-100" routerLink="/bikes/{{bike.id}}">
-        <td class="w-12 sm:w-16">
-          <img #bikeImg class="w-10 h-10 sm:w-12 sm:h-12 rounded-full mr-4 my-2" src={{bike.thumb}} (error)="bikeImg.src = 'assets/placeholder.jpg'" alt={{bike.description}} />
-        </td>
-        <td>
-          <span>{{bike.title}}</span>
-          <span class="block sm:hidden">
-            <app-bike-status [status]="bike.status"></app-bike-status>
-          </span>
-        </td>
-        <td class="w-18 hidden sm:table-cell">
-          <app-bike-status [status]="bike.status"></app-bike-status>
-        </td>
-        <td class="w-12 text-right">
-          <a routerLink="/bikes/{{bike.id}}" class="m-2" href="#">View</a>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-
-  <div class="flex flex-col md:flex-row items-center pt-4 border-t border-gray-200">
-    <div class="flex-1 text-sm text-gray-700">
-      Showing <span class="font-semibold">{{response.range.from}}</span> to <span class="font-semibold">{{response.range.to}}</span>
-      (<span class="font-semibold">{{response.entryCount}}</span> entries)
-    </div>
-    <div *ngIf="response.mayHaveNextPage" class="flex-1">
-      <div class="inline-flex mt-2 xs:mt-0">
-        <button (click)="onChangePage(1)" class="flex items-center px-3 h-8 rounded-l hover:bg-gray-200">
-            Prev
-        </button>
-        <button (click)="onChangePage(2)" class="flex items-center px-3 h-8 border-0 border-l border-gray-700 rounded-r hover:bg-gray-200">
-            Next
-        </button>
-      </div>
-    </div>
-  </div>
+  <app-bike-list [bikes]="response.data"></app-bike-list>
+  <app-pagination [pagedResult]="response" (previousPage)="onPrevious()" (nextPage)="onNext()"></app-pagination>
 
 </div>
 

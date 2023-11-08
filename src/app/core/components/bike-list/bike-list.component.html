@@ -1,1 +1,21 @@
-<p>bike-list works!</p>
+<table class="table-auto w-full divide-y divide-gray-200">
+  <tbody *ngFor="let bike of bikes">
+    <tr class="cursor-pointer pointer-events-auto hover:bg-gray-100" routerLink="/bikes/{{bike.id}}">
+      <td class="w-12 sm:w-16">
+        <img #bikeImg class="w-10 h-10 sm:w-12 sm:h-12 rounded-full mr-4 my-2" src={{bike.thumb}} (error)="bikeImg.src = 'assets/placeholder.jpg'" alt={{bike.description}} />
+      </td>
+      <td>
+        <span>{{bike.title}}</span>
+        <span class="block sm:hidden">
+          <app-bike-status [status]="bike.status"></app-bike-status>
+        </span>
+      </td>
+      <td class="w-18 hidden sm:table-cell">
+        <app-bike-status [status]="bike.status"></app-bike-status>
+      </td>
+      <td class="w-12 text-right">
+        <a routerLink="/bikes/{{bike.id}}" class="m-2" href="#">View</a>
+      </td>
+    </tr>
+  </tbody>
+</table>
