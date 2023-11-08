@@ -25,11 +25,15 @@ export class BikeService {
     },
   };
 
-  public bikesSubject$ = new BehaviorSubject<void>(undefined); // make private?
+  private bikesSubject$ = new BehaviorSubject<void>(undefined); // make private?
   public availableBikes$ = this.bikesSubject$.pipe(
     mergeMap(() => this.getBikes$(this.queryParams)),
     shareReplay(1)
   );
+
+  fetchBikes() {
+    this.bikesSubject$.next();
+  }
 
   getBikes$(params: QueryParams): Observable<PagedResult> {
     return this.http.get<ApiResponse>(`${baseUrl}/search`, this.buildHttpParamOptions(params))
@@ -39,11 +43,11 @@ export class BikeService {
           const bikeCount = result.bikes?.length ?? 0;
           return {
             data: result.bikes ?? [],
-            mayHaveNextPage: bikeCount == this.queryParams.pageSize,
+            mayHaveNextPage: bikeCount == params.pageSize,
             entryCount: bikeCount,
             range: {
-              from: 1 + (this.queryParams.pageSize * (this.queryParams.pageNumber - 1)),
-              to: (this.queryParams.pageSize * (this.queryParams.pageNumber - 1)) + bikeCount,
+              from: 1 + (params.pageSize * (params.pageNumber - 1)),
+              to: (params.pageSize * (params.pageNumber - 1)) + bikeCount,
             },
           };
         })

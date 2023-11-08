@@ -36,7 +36,7 @@ export class MainPageComponent implements OnInit {
       };
 
       this.bikeService.queryParams = updatedParams;
-      this.bikeService.bikesSubject$.next();
+      this.bikeService.fetchBikes();
     });
   }
 
