@@ -7,7 +7,7 @@ import { BikeDetailModel } from 'src/app/api/models/bike-model';
   styleUrls: ['./bike-details.component.css'],
 })
 export class BikeDetailsComponent {
-  @Input() bike?: BikeDetailModel;
+  @Input() bike!: BikeDetailModel; // bang for TS strictNullCheck
 
   placeholderUrl = 'assets/placeholder.jpg';
 }
