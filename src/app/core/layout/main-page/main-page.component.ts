@@ -58,7 +58,6 @@ export class MainPageComponent implements OnInit {
     });
   }
 
-  // move to pagination?
   onPrevious() {
     if (!(this.page <= 1)) this.onChangePage(this.page - 1);
   }
