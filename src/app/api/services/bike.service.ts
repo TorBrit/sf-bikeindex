@@ -1,4 +1,4 @@
-import { BehaviorSubject, Observable, catchError, map, mergeMap, of, shareReplay } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, concatMap, map, mergeMap, of, shareReplay, switchMap } from 'rxjs';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
@@ -27,7 +27,7 @@ export class BikeService {
 
   private bikesSubject$ = new BehaviorSubject<void>(undefined); // make private?
   public availableBikes$ = this.bikesSubject$.pipe(
-    mergeMap(() => this.getBikes$(this.queryParams)),
+    switchMap(() => this.getBikes$(this.queryParams)), // switchMap cancels ongoing req.
     shareReplay(1)
   );
 

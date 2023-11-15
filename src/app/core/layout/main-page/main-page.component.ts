@@ -20,7 +20,12 @@ export class MainPageComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router)
   {
+    // won't be destroyed, so you'll get new ones
+    // async pipe unsubs automatically
     this.route.queryParams.subscribe((params) => {
+      // this.bikeService.queryParams => subject rather than raw obj?
+      // - race conditions (update from where)
+
       // on navigating back, keep previous city
       if (!params['search']) {
         this.search = this.bikeService.queryParams.location.city;

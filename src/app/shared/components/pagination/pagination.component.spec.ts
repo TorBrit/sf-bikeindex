@@ -34,6 +34,7 @@ describe('PaginationComponent', () => {
       expect(pageButtons).toBeFalsy();
     });
 
+    // https://material.angular.io/cdk/test-harnesses/overview
     it('should show page-buttons accordingly if mayHaveNextPage is set to `true` from `false`', () => {
       let pageButtons = fixture.nativeElement.querySelector('#page-buttons');
       expect(pageButtons).toBeFalsy();

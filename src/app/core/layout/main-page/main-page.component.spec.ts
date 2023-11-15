@@ -53,8 +53,12 @@ describe('MainPageComponent', () => {
     ac.queryParams.subscribe((v) => {
       expect(v).toEqual({ search: 'Delft', page: 1 });
     });
+
+    const inputField = fixture.nativeElement.querySelector('#city-input'); // TODO
+    console.info(inputField);
+    expect(component).toBeTruthy();
   });
 
   // TODO it's:
-  // should update search input and query params when updating
+  // should update query params when search input changes
 });
