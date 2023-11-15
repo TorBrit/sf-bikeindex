@@ -1,12 +1,9 @@
 <div class="max-w-5xl m-auto bg-gray-200 text-gray p-3 mb-2">
-  <input #cityInput class="w-full sm:w-auto mb-3 sm:m-0 sm:mr-3 p-2" type="text" aria-label="city-input" placeholder="Enter a city" value="{{search}}" />
+  <input #cityInput id="city-input" class="w-full sm:w-auto mb-3 sm:m-0 sm:mr-3 p-2" type="text" aria-label="city-input" placeholder="Enter a city" value="{{search}}" />
   <button class="w-full sm:w-auto bg-blue-600 hover:bg-blue-800 text-white p-2" (click)="onClickSearch(cityInput.value)">Search bikes</button>
 </div>
 
 <div *ngIf="bikes$ | async as response">
   <app-bike-list [bikes]="response.data"></app-bike-list>
   <app-pagination [pagedResult]="response" (previousPage)="onPrevious()" (nextPage)="onNext()"></app-pagination>
-
 </div>
-
-

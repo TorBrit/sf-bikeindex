@@ -1,4 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ActivatedRoute } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { of } from 'rxjs';
 
 import { DetailPageComponent } from './detail-page.component';
 
@@ -9,8 +13,23 @@ describe('DetailPageComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [DetailPageComponent],
+      providers: [
+        HttpClient,
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            queryParams: of({
+              id: 5,
+            }),
+          },
+        }
+      ],
+      imports: [
+        HttpClientTestingModule
+      ],
     });
     fixture = TestBed.createComponent(DetailPageComponent);
+
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -19,6 +38,6 @@ describe('DetailPageComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  // TODO tests:
-  // should show that loading failed if 404 is returned
+  // should handle subscribe resolve
+  // should show not found message if url returns no data
 });
